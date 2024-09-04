@@ -20,5 +20,9 @@ router
 router
   .route("/api/users/unfollow")
   .put(authCtrl.requireSignIn, useCtrl.removeFollowing, useCtrl.removeFollower);
+//notFollowed users
+router
+  .route("/api/findpeople/:userId")
+  .get(authCtrl.requireSignIn, useCtrl.findpeople);
 router.param("userId", useCtrl.userByID);
 module.exports = router;
