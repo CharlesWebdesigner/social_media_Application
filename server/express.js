@@ -5,6 +5,7 @@ const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const authRoutes = require("../routes/auth.routes");
 const userRoutes = require("../routes/user.routes");
+const postRoutes = require("../routes/post.routes");
 // const compress = require("compress");
 const cors = require("cors");
 // app.use(compress());
@@ -14,6 +15,7 @@ app.use(cookieParser());
 app.use(morgan("dev"));
 app.use("/", authRoutes);
 app.use("/", userRoutes);
+app.use("/", postRoutes);
 app.use("*", (req, res) => {
   res.status(404).json({ message: "Oops! i can't find what your looking for" });
 });
