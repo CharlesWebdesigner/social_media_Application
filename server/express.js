@@ -14,6 +14,9 @@ app.use(cookieParser());
 app.use(morgan("dev"));
 app.use("/", authRoutes);
 app.use("/", userRoutes);
+app.use("*", (req, res) => {
+  res.status(404).json({ message: "Oops! i can't find what your looking for" });
+});
 // app.use(cors({ origin: "localhost" }));
 app.use((err, req, res, next) => {
   if (err.name === "UnauthorizedError") {

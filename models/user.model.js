@@ -26,6 +26,10 @@ const userSchema = new mongoose.Schema({
       message: "Email already exists",
     },
   },
+  photo: {
+    data: Buffer,
+    contentType: String,
+  },
   created: {
     type: Date,
     default: Date.now(),

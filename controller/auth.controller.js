@@ -1,6 +1,6 @@
 const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
-const { expressjwt: jwtEx } = require("express-jwt");
+const { expressjwt: JWT } = require("express-jwt");
 const config = require("../config/config");
 const signIn = async (req, res) => {
   try {
@@ -27,11 +27,12 @@ const signOut = (req, res) => {
   res.clearCookie("t");
   return res.status(200).json({ message: "signed out successfully" });
 };
-const requireSignIn = jwtEx({
+const requireSignIn = JWT({
   secret: config.jwtSecret,
-  userProperty: "auth",
   algorithms: ["HS256"],
+  userProperty: "auth",
 });
+
 const hasAuthorization = (req, res) => {
   const authorized = req.profile && req.auth && req.profile._id == req.auth._id;
   if (!authorized) {
