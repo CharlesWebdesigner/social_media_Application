@@ -37,11 +37,21 @@ userSchema
   .get(function () {
     return this._password;
   });
+
+userSchema.path("hashed_password").validate(function (v) {
+  if (this._password && this._password.length < 6) {
+    this.invalidate("password", "Password must be at least 6 characters.");
+  }
+  if (this.isNew && !this._password) {
+    this.invalidate("password", "Password is required");
+  }
+}, null);
+
 userSchema.methods = {
-  authenticate: (plainText) => {
+  authenticate: function (plainText) {
     return this.encryptPassword(plainText) === this.hashed_password;
   },
-  encryptPassword: function password(password) {
+  encryptPassword: function (password) {
     if (!password) return "";
     try {
       return crypto
@@ -52,14 +62,9 @@ userSchema.methods = {
       return "";
     }
   },
-  makeSalt: () => Math.round(new Date().valueOf() * Math.random()) + "",
+  makeSalt: function () {
+    return Math.round(new Date().valueOf() * Math.random()) + "";
+  },
 };
-userSchema.path("hashed_password").validate(function (v) {
-  if (this._password & (this._password.length < 6)) {
-    this.invalidate("password", "password must be 6 character long");
-  }
-  if (this.isNew && !this._password) {
-    this.invalidate("password", "password is required");
-  }
-}, null);
-module.exports = mongoose.model("user", userSchema);
+
+module.exports = mongoose.model("User", userSchema);
