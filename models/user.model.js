@@ -1,0 +1,65 @@
+const mongoose = require("mongoose");
+const crypto = require("crypto");
+const userSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    trim: true,
+    required: "Name is required",
+  },
+  email: {
+    type: String,
+    trim: true,
+    unique: "Email already exist",
+    required: "Email is required",
+    match: [
+      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+      "Please use a valid email address",
+    ],
+  },
+  created: {
+    type: Date,
+    default: Date.now(),
+  },
+  updated: Date,
+  hashed_password: {
+    type: String,
+    required: "Password is required",
+  },
+  salt: String,
+});
+userSchema
+  .virtual("password")
+  .set(function (password) {
+    this._password = password;
+    this.salt = this.makeSalt();
+    this.hashed_password = this.encryptPassword(password);
+  })
+  .get(function () {
+    return this._password;
+  });
+userSchema.methods = {
+  authenticate: (plainText) => {
+    return this.encryptPassword(plainText) === this.hashed_password;
+  },
+  encryptPassword: function password(password) {
+    if (!password) return "";
+    try {
+      return crypto
+        .createHmac("sha1", this.salt)
+        .update(password)
+        .digest("hex");
+    } catch (err) {
+      return "";
+    }
+  },
+  makeSalt: () => Math.round(new Date().valueOf() * Math.random()) + "",
+};
+userSchema.path("hashed_password").validate(function (v) {
+  if (this._password & (this._password.length < 6)) {
+    this.invalidate("password", "password must be 6 character long");
+  }
+  if (this.isNew && !this._password) {
+    this.invalidate("password", "password is required");
+  }
+}, null);
+module.exports = mongoose.model("user", userSchema);
