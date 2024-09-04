@@ -9,12 +9,22 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     trim: true,
-    unique: "Email already exist",
+    unique: true,
     required: "Email is required",
     match: [
       /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
       "Please use a valid email address",
     ],
+    validate: {
+      validator: async function (email) {
+        const user = await this.constructor.findOne({ email });
+        if (user) {
+          return false;
+        }
+        return true;
+      },
+      message: "Email already exists",
+    },
   },
   created: {
     type: Date,
