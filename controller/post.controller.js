@@ -1,6 +1,7 @@
 const Post = require("../models/post.model");
 const errorHandler = require("../helpers/dbErrorHandler");
 const formidable = require("formidable");
+// formidable.plugin(require("formidable-plugins"));
 const fs = require("fs");
 const listNewsFeed = async (req, res) => {
   let following = req.profile.following;
@@ -37,6 +38,7 @@ const create = (req, res, next) => {
   form.keepExtensions = true;
   form.parse(req, async (err, fields, files) => {
     if (err) {
+      console.log(err);
       return res.status(400).json({
         error: "Image could not be uploaded",
       });

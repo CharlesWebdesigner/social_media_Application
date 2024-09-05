@@ -9,7 +9,7 @@ router
 router
   .route("/api/posts/by/:userId")
   .get(authCtrl.requireSignIn, postCtrl.listByUser);
-router.param("userId", useCtrl.userByID);
+
 router
   .route("/api/posts/new/:userId")
   .post(authCtrl.requireSignIn, postCtrl.create);
@@ -21,5 +21,6 @@ router.route("/api/posts/unlike").put(authCtrl.requireSignIn, postCtrl.unlike);
 router
   .route("/api/posts/comment")
   .put(authCtrl.requireSignIn, postCtrl.comment);
+router.param("userId", useCtrl.userByID);
 router.param("postId", postCtrl.postByID);
 module.exports = router;

@@ -40,6 +40,8 @@ const userSchema = new mongoose.Schema({
     required: "Password is required",
   },
   salt: String,
+  following: [{ type: mongoose.Schema.ObjectId, ref: "User" }],
+  followers: [{ type: mongoose.Schema.ObjectId, ref: "User" }],
 });
 userSchema
   .virtual("password")

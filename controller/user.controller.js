@@ -3,7 +3,9 @@ const errorHandler = require("../helpers/dbErrorHandler");
 const extend = require("lodash/extend");
 const formidable = require("formidable");
 const fs = require("fs");
-const profileImage = require("../assets/profile-pic.png");
+// const profileImage = require("../assets/profile-pic.png");
+const path = require("path");
+const profileImage = path.resolve("../assets/profile-pic.png");
 const create = async (req, res, next) => {
   const user = new User(req.body);
   try {
@@ -39,6 +41,7 @@ const userByID = async (req, res, next, id) => {
     req.profile = user;
     next();
   } catch (err) {
+    console.log(err);
     return res.status(400).json({
       error: "could not retrieve the user",
     });
