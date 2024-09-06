@@ -3,6 +3,7 @@ import { makeStyles } from "@mui/styles";
 import { Card, Typography, Divider } from "@mui/material";
 import auth from "../auth/auth-helper";
 import { listNewsFeed } from "./api-post";
+import PostList from "./PostList";
 const useStyles = makeStyles((theme) => ({
   card: {
     margin: "auto",
@@ -64,7 +65,7 @@ export default function Newsfeed() {
   return (
     <Card className={classes.card}>
       <Typography type="title" className={classes.title}>
-        Newsfeed
+        News feed
       </Typography>
       <Divider />
       <NewPost addUpdate={addPost} />
