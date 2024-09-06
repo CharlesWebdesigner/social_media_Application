@@ -37,38 +37,42 @@ const create = (req, res, next) => {
   let form = new formidable.IncomingForm();
   form.keepExtensions = true;
   form.parse(req, async (err, fields, files) => {
-    // Log the type and check the structure of fields
-    console.log("Type of fields:", typeof fields); // should be "object"
-    console.log("Fields:", fields);
-
     if (err) {
       console.log(err);
       return res.status(400).json({
         error: "Image could not be uploaded",
       });
     }
-
-    // Ensure fields are in the correct format (convert arrays to strings if needed)
     Object.keys(fields).forEach((key) => {
       if (Array.isArray(fields[key])) {
-        fields[key] = fields[key][0]; // Convert array to string if needed
+        fields[key] = fields[key][0];
       }
     });
-
     let post = new Post(fields);
     post.postedBy = req.profile;
-
-    if (files.photo) {
-      post.photo.data = fs.readFileSync(files.photo.filepath);
-      post.photo.contentType = files.photo.mimetype;
+    const photoFile = files.photo && files.photo[0];
+    if (photoFile && photoFile.filepath) {
+      console.log("Processing photo upload:", photoFile);
+      try {
+        post.photo.data = fs.readFileSync(photoFile.filepath);
+        post.photo.contentType = photoFile.mimetype;
+      } catch (readError) {
+        // console.error("Error reading file:", readError);
+        return res.status(400).json({
+          error: "Could not read uploaded file",
+        });
+      }
+    } else {
+      console.log("No photo uploaded or invalid file.");
     }
 
     try {
       let result = await post.save();
       res.json(result);
-    } catch (err) {
+    } catch (saveError) {
+      console.error("Error saving post:", saveError);
       return res.status(400).json({
-        error: errorHandler.getErrorMessage(err),
+        error: errorHandler.getErrorMessage(saveError),
       });
     }
   });
