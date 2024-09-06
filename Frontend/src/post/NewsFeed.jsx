@@ -4,6 +4,7 @@ import { Card, Typography, Divider } from "@mui/material";
 import auth from "../auth/auth-helper";
 import { listNewsFeed } from "./api-post";
 import PostList from "./PostList";
+import NewPost from "./NewPost";
 const useStyles = makeStyles((theme) => ({
   card: {
     margin: "auto",
