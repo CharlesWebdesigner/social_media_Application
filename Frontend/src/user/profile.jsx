@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import auth from "../auth/auth-helper";
 import { read } from "./api-user";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Avatar,
   List,
@@ -9,6 +9,9 @@ import {
   Paper,
   Typography,
   ListItemAvatar,
+  ListItemText,
+  ListItemSecondaryAction,
+  IconButton,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 const useStyles = makeStyles((theme) => ({
@@ -119,6 +122,21 @@ export default function Profile({ match }) {
           <ListItemAvatar>
             <Avatar src={photoUrl} className={classes.bigAvatar} />
           </ListItemAvatar>
+          <ListItemText
+            primary={values.user.name}
+            secondary={values.user.email}
+          />
+          {auth.isAuthenticated().user &&
+            auth.isAuthenticated().user._id == values.user._id}
+          ?(
+          <ListItemSecondaryAction>
+            <Link to={"/user/edit/" + values.user._id}>
+              <IconButton aria-label="Edit" color="primary">
+                Edit
+              </IconButton>
+            </Link>
+          </ListItemSecondaryAction>
+          ) :( )
         </ListItem>
       </List>
     </Paper>

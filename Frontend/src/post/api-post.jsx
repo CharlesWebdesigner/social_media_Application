@@ -9,9 +9,9 @@ const create = async (params, credentials, post) => {
       },
       body: post,
     });
-    post.forEach((value, key) => {
-      console.log(`${key}: ${value}`);
-    });
+    // post.forEach((value, key) => {
+    //   console.log(`${key}: ${value}`);
+    // });
     return await response.json();
   } catch (err) {
     console.log(err);
