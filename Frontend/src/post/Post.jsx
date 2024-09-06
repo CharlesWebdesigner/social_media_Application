@@ -17,6 +17,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import PropTypes from "prop-types";
 import { remove, like, unlike } from "./api-post";
 import { Link } from "react-router-dom";
+import Comments from "./Comments";
 const useStyles = makeStyles((theme) => ({
   card: {
     maxWidth: 600,
