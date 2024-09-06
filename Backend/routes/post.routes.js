@@ -22,5 +22,9 @@ router
   .route("/api/posts/comment")
   .put(authCtrl.requireSignIn, postCtrl.comment);
 router.param("userId", useCtrl.userByID);
-router.param("postId", postCtrl.postByID);
+
+// router.param("postId", (req, res, next, id) => {
+//   console.log("router.param userId:", id);
+//   useCtrl.userByID(req, res, next, id);
+// });
 module.exports = router;

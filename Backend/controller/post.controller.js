@@ -1,8 +1,8 @@
 const Post = require("../models/post.model");
 const errorHandler = require("../helpers/dbErrorHandler");
 const formidable = require("formidable");
-// formidable.plugin(require("formidable-plugins"));
 const fs = require("fs");
+
 const listNewsFeed = async (req, res) => {
   let following = req.profile.following;
   following.push(req.profile._id);
