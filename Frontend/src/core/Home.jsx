@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import unicornbike from "../assets/unicornbike.jpg";
 import auth from "../auth/auth-helper";
 import { useNavigate } from "react-router-dom";
-import FindPeople from '../user/FindPeople'
+import FindPeople from "../user/FindPeople";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,

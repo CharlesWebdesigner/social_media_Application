@@ -50,7 +50,7 @@ export default function FindPeople() {
   useEffect(() => {
     const abortController = new AbortController();
     const signal = abortController.signal;
-    FindPeople(
+    findPeople(
       {
         userId: jwt.user._id,
       },
@@ -65,9 +65,11 @@ export default function FindPeople() {
         setValues({ ...values, users: data });
       }
     });
-    return function cleanup() {
-      abortController.abort();
-    };
+    // return function cleanup() {
+    //   if (!signal.aborted) {
+    //     abortController.abort();
+    //   }
+    // };
   }, []);
 
   const clickFollow = (user, index) => {
@@ -99,14 +101,14 @@ export default function FindPeople() {
   };
   return (
     <div>
-      <Paper className={classes.root} elevation={4}>
+      <Paper className={classes.root} elevation={4} style={{ margin: "1px" }}>
         <Typography type="title" className={classes.title}>
           Who to follow
         </Typography>
         <List>
           {values.users.map((item, i) => {
             return (
-              <sapn key={i}>
+              <span key={i}>
                 <ListItem>
                   <ListItemAvatar className={classes.avatar}>
                     <Avatar src={"/api/users/photo" + item._id} />
@@ -132,7 +134,7 @@ export default function FindPeople() {
                     </Button>
                   </ListItemSecondaryAction>
                 </ListItem>
-              </sapn>
+              </span>
             );
           })}
         </List>
@@ -143,7 +145,7 @@ export default function FindPeople() {
           horizontal: "right",
         }}
         open={values.open}
-        onClose={handleREquestClose}
+        onClose={handleRequestClose}
         autoHideDuration={6000}
         message={<span className={classes.snack}>{values.followMessage}</span>}
       />
