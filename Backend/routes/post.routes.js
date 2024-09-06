@@ -16,7 +16,7 @@ router
 router
   .route("/api/posts/:postId")
   .delete(authCtrl.requireSignIn, postCtrl.isPoster, postCtrl.remove);
-router.route("api/posts/like").put(authCtrl.requireSignIn, postCtrl.like);
+router.route("/api/posts/like").put(authCtrl.requireSignIn, postCtrl.like);
 router.route("/api/posts/unlike").put(authCtrl.requireSignIn, postCtrl.unlike);
 router
   .route("/api/posts/comment")
