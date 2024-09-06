@@ -23,6 +23,6 @@ router
 //notFollowed users
 router
   .route("/api/users/findpeople/:userId")
-  .get(authCtrl.requireSignIn, useCtrl.findpeople);
+  .get(authCtrl.requireSignIn, useCtrl.findPeople);
 router.param("userId", useCtrl.userByID);
 module.exports = router;

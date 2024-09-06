@@ -9,6 +9,7 @@ const create = async (params, credentials, post) => {
       },
       body: post,
     });
+    console.log(post);
     return await response.json();
   } catch (err) {
     console.log(err);

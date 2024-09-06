@@ -34,6 +34,7 @@ const listByUser = async (req, res) => {
   }
 };
 const create = (req, res, next) => {
+  console.log(req.body);
   let form = new formidable.IncomingForm();
   form.keepExtensions = true;
   form.parse(req, async (err, fields, files) => {
@@ -46,8 +47,8 @@ const create = (req, res, next) => {
     let post = new Post(fields);
     post.postedBy = req.profile;
     if (files.photo) {
-      post.photo.data = fs.readFileSync(files.photo.path);
-      post.photo.contentType = files.photo.type;
+      post.photo.data = fs.readFileSync(files.photo.filepath);
+      post.photo.contentType = files.photo.mimetype;
     }
     try {
       let result = await post.save();
@@ -59,6 +60,7 @@ const create = (req, res, next) => {
     }
   });
 };
+
 const remove = async (req, res) => {
   let post = req.post;
   try {

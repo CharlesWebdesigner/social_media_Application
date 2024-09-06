@@ -9,7 +9,7 @@ export default function PostList(props) {
     </div>
   );
 }
-PostList.PropTypes = {
+PostList.propTypes = {
   posts: PropTypes.array.isRequired,
   removeUpdate: PropTypes.func.isRequired,
 };
