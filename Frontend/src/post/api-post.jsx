@@ -9,7 +9,9 @@ const create = async (params, credentials, post) => {
       },
       body: post,
     });
-    console.log(post);
+    post.forEach((value, key) => {
+      console.log(`${key}: ${value}`);
+    });
     return await response.json();
   } catch (err) {
     console.log(err);
@@ -45,7 +47,7 @@ const listNewsFeed = async (params, credentials, signal) => {
     });
     return await response.json();
   } catch (err) {
-    console.log(err);
+    console.log("error from newsF", err);
   }
 };
 

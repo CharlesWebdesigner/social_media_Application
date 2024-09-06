@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const postSchema = new mongoose.Schema({
+const PostSchema = new mongoose.Schema({
   text: {
     type: String,
     required: "Text is required",
@@ -11,7 +11,7 @@ const postSchema = new mongoose.Schema({
   likes: [{ type: mongoose.Schema.ObjectId, ref: "User" }],
   comments: [
     {
-      type: String,
+      text: String,
       created: { type: Date, default: Date.now },
       postedBy: { type: mongoose.Schema.ObjectId, ref: "User" },
     },
@@ -22,4 +22,4 @@ const postSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
-module.exports = mongoose.model("Post", postSchema);
+module.exports = mongoose.model("Post", PostSchema);

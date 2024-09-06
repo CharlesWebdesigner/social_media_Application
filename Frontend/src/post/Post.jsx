@@ -1,5 +1,6 @@
 import { makeStyles } from "@mui/styles";
 import auth from "../auth/auth-helper";
+import { useState, useEffect } from "react";
 import {
   Avatar,
   Card,
@@ -114,7 +115,7 @@ export default function Post(props) {
       <CardHeader
         avatar={<Avatar src={"/api/users/photo/" + props.post.postedBy._id} />}
         action={
-          props.post.postedBy._id === auth.isAuthenticanted().user._id && (
+          props.post.postedBy._id === auth.isAuthenticated().user._id && (
             <IconButton onClick={deletePost}>
               <DeleteForeverIcon />
             </IconButton>

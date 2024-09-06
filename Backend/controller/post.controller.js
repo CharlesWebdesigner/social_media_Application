@@ -34,22 +34,35 @@ const listByUser = async (req, res) => {
   }
 };
 const create = (req, res, next) => {
-  console.log(req.body);
   let form = new formidable.IncomingForm();
   form.keepExtensions = true;
   form.parse(req, async (err, fields, files) => {
+    // Log the type and check the structure of fields
+    console.log("Type of fields:", typeof fields); // should be "object"
+    console.log("Fields:", fields);
+
     if (err) {
       console.log(err);
       return res.status(400).json({
         error: "Image could not be uploaded",
       });
     }
+
+    // Ensure fields are in the correct format (convert arrays to strings if needed)
+    Object.keys(fields).forEach((key) => {
+      if (Array.isArray(fields[key])) {
+        fields[key] = fields[key][0]; // Convert array to string if needed
+      }
+    });
+
     let post = new Post(fields);
     post.postedBy = req.profile;
+
     if (files.photo) {
       post.photo.data = fs.readFileSync(files.photo.filepath);
       post.photo.contentType = files.photo.mimetype;
     }
+
     try {
       let result = await post.save();
       res.json(result);

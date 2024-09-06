@@ -56,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
     verticalAlign: "super",
   },
 }));
+
 export default function NewPost(props) {
   const classes = useStyles();
   const [values, setValues] = useState({

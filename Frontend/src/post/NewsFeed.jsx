@@ -46,9 +46,9 @@ export default function Newsfeed() {
         setPosts(data);
       }
     });
-    return function cleanup() {
-      abortController.abort();
-    };
+    // return function cleanup() {
+    //   abortController.abort();
+    // };
   }, []);
 
   const addPost = (post) => {
