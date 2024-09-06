@@ -124,7 +124,7 @@ const comment = async (params, credentials, postId, comment) => {
 
 const uncomment = async (params, credentials, postId, comment) => {
   try {
-    let response = await fetch(`${url}/api/posts/uncomment/`, {
+    let response = await fetch(`${url}/api/posts/uncomment`, {
       method: "PUT",
       headers: {
         Accept: "application/json",

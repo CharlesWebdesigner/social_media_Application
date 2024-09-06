@@ -21,10 +21,13 @@ router.route("/api/posts/unlike").put(authCtrl.requireSignIn, postCtrl.unlike);
 router
   .route("/api/posts/comment")
   .put(authCtrl.requireSignIn, postCtrl.comment);
-router.param("userId", useCtrl.userByID);
+router
+  .route("/api/posts/uncomment")
+  .put(authCtrl.requireSignIn, postCtrl.uncomment);
 
-// router.param("postId", (req, res, next, id) => {
-//   console.log("router.param userId:", id);
-//   useCtrl.userByID(req, res, next, id);
-// });
+router.param("userId", useCtrl.userByID);
+router.param("postId", (req, res, next, id) => {
+  // console.log("router.param userId:", id);
+  useCtrl.userByID(req, res, next, id);
+});
 module.exports = router;

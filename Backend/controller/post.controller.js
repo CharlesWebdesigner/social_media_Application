@@ -81,7 +81,7 @@ const create = (req, res, next) => {
 const remove = async (req, res) => {
   let post = req.post;
   try {
-    let deletedPost = await post.deleteOne();
+    let deletedPost = await Post.deleteOne();
     res.json(deletedPost);
   } catch (err) {
     return res.status(400).json({
@@ -168,13 +168,12 @@ const comment = async (req, res) => {
 const uncomment = async (req, res) => {
   let comment = req.body.comment;
   try {
-    let result = await post
-      .findByIdAndUpdate(
-        req.body.postedBy,
-        { $pull: { comments: { _id: comment._id } } },
-        { new: true }
-      )
-      .populate("comments", "_id name")
+    let result = await Post.findByIdAndUpdate(
+      req.body.postId,
+      { $pull: { comments: { _id: comment._id } } },
+      { new: true }
+    )
+      .populate("comments.postedBy", "_id name")
       .populate("postedBy", "_id name")
       .exec();
     res.json(result);
