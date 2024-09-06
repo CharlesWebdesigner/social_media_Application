@@ -1,28 +1,35 @@
 const express = require("express");
-const useCtrl = require("../controller/user.controller");
+const userCtrl = require("../controller/user.controller");
 const authCtrl = require("../controller/auth.controller");
 const router = express.Router();
-router.route("/api/users").get(useCtrl.list).post(useCtrl.create);
-router
-  .route("/api/users/:userId")
-  .get(authCtrl.requireSignIn, useCtrl.read)
-  .put(authCtrl.requireSignIn, authCtrl.hasAuthorization, useCtrl.update)
-  .delete(authCtrl.requireSignIn, authCtrl.hasAuthorization, useCtrl.remove);
-//photo api
+router.route("/api/users").get(userCtrl.list).post(userCtrl.create);
+
 router
   .route("/api/users/photo/:userId")
-  .get(useCtrl.photo, useCtrl.defaultPhoto);
-router.route("/api/users/defaultphoto").get(useCtrl.defaultPhoto);
-//follow and follower api
+  .get(userCtrl.photo, userCtrl.defaultPhoto);
+router.route("/api/users/defaultphoto").get(userCtrl.defaultPhoto);
+
 router
   .route("/api/users/follow")
-  .put(authCtrl.requireSignIn, useCtrl.addFollowing, useCtrl.addFollower);
+  .put(authCtrl.requireSignIn, userCtrl.addFollowing, userCtrl.addFollower);
 router
   .route("/api/users/unfollow")
-  .put(authCtrl.requireSignIn, useCtrl.removeFollowing, useCtrl.removeFollower);
-//notFollowed users
+  .put(
+    authCtrl.requireSignIn,
+    userCtrl.removeFollowing,
+    userCtrl.removeFollower
+  );
+
 router
   .route("/api/users/findpeople/:userId")
-  .get(authCtrl.requireSignIn, useCtrl.findPeople);
-router.param("userId", useCtrl.userByID);
+  .get(authCtrl.requireSignIn, userCtrl.findPeople);
+
+router
+  .route("/api/users/:userId")
+  .get(authCtrl.requireSignIn, userCtrl.read)
+  .put(authCtrl.requireSignIn, authCtrl.hasAuthorization, userCtrl.update)
+  .delete(authCtrl.requireSignIn, authCtrl.hasAuthorization, userCtrl.remove);
+
+router.param("userId", userCtrl.userByID);
+
 module.exports = router;

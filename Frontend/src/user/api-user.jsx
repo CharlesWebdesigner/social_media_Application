@@ -1,8 +1,8 @@
 let url = "http://localhost:5000";
 const create = async (user) => {
   try {
-    let response = await fetch(`${url}/api/users`, {
-      method: "post",
+    let response = await fetch(`${url}/api/users/`, {
+      method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -14,6 +14,67 @@ const create = async (user) => {
     console.log(err);
   }
 };
+
+const list = async (signal) => {
+  try {
+    let response = await fetch(`${url}/api/users/`, {
+      method: "GET",
+      signal: signal,
+    });
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const read = async (params, credentials, signal) => {
+  try {
+    let response = await fetch(`${url}/api/users/` + params.userId, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + credentials.t,
+      },
+    });
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const update = async (params, credentials, user) => {
+  try {
+    let response = await fetch(`${url}/api/users/` + params.userId, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + credentials.t,
+      },
+      body: user,
+    });
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const remove = async (params, credentials) => {
+  try {
+    let response = await fetch(`${url}/api/users/` + params.userId, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + credentials.t,
+      },
+    });
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 const follow = async (params, credentials, followId) => {
   try {
     let response = await fetch(`${url}/api/users/follow/`, {
@@ -30,6 +91,24 @@ const follow = async (params, credentials, followId) => {
     console.log(err);
   }
 };
+
+const unfollow = async (params, credentials, unfollowId) => {
+  try {
+    let response = await fetch(`${url}/api/users/follow/`, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + credentials.t,
+      },
+      body: JSON.stringify({ userId: params.userId, unfollowId: unfollowId }),
+    });
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 const findPeople = async (params, credentials, signal) => {
   try {
     let response = await fetch(`${url}/api/users/findpeople/` + params.userId, {
@@ -47,4 +126,4 @@ const findPeople = async (params, credentials, signal) => {
   }
 };
 
-export { create, findPeople, follow };
+export { create, list, read, update, remove, follow, unfollow, findPeople };
