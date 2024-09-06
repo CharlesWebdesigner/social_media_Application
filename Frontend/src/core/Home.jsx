@@ -5,6 +5,7 @@ import unicornbike from "../assets/unicornbike.jpg";
 import auth from "../auth/auth-helper";
 import { useNavigate } from "react-router-dom";
 import FindPeople from "../user/FindPeople";
+import Newsfeed from "../post/NewsFeed";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -92,6 +93,9 @@ export default function Home() {
       )}
       {defaultPage && (
         <Grid container spacing={8}>
+          <Grid item xs={8} sm={7}>
+            <Newsfeed />
+          </Grid>
           <Grid item xs={6} sm={5}>
             <FindPeople />
           </Grid>
