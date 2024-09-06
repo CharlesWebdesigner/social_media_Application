@@ -2,7 +2,14 @@ import { useEffect, useState } from "react";
 import auth from "../auth/auth-helper";
 import { read } from "./api-user";
 import { useNavigate } from "react-router-dom";
-import { Paper, Typography } from "@mui/material";
+import {
+  Avatar,
+  List,
+  ListItem,
+  Paper,
+  Typography,
+  ListItemAvatar,
+} from "@mui/material";
 import { makeStyles } from "@mui/styles";
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -107,6 +114,13 @@ export default function Profile({ match }) {
       <Typography variant="h6" className={classes.title}>
         Profile
       </Typography>
+      <List dense>
+        <ListItem>
+          <ListItemAvatar>
+            <Avatar src={photoUrl} className={classes.bigAvatar} />
+          </ListItemAvatar>
+        </ListItem>
+      </List>
     </Paper>
   );
 }
