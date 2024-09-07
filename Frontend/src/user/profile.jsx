@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import auth from "../auth/auth-helper";
+import EditIcon from "@mui/icons-material/Edit";
 import { read } from "./api-user";
+import DeleteUser from "./DeleteUser";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Avatar,
@@ -12,8 +14,10 @@ import {
   ListItemText,
   ListItemSecondaryAction,
   IconButton,
+  Divider,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import FollowProfileButton from "./FollowProfileButton";
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 600,
@@ -132,11 +136,26 @@ export default function Profile({ match }) {
           <ListItemSecondaryAction>
             <Link to={"/user/edit/" + values.user._id}>
               <IconButton aria-label="Edit" color="primary">
-                Edit
+                <EditIcon />
               </IconButton>
             </Link>
+            <DeleteUser userId={values.user._id} />
           </ListItemSecondaryAction>
-          ) :( )
+          ) :(
+          <FollowProfileButton
+            following={values.following}
+            onButtonClick={clickFollowButton}
+          />
+          )
+        </ListItem>
+        <Divider />
+        <ListItem>
+          <ListItemText
+            primary={values.user.about}
+            secondary={
+              "Joined: " + new Date(values.user.created).toDateString()
+            }
+          />
         </ListItem>
       </List>
     </Paper>
