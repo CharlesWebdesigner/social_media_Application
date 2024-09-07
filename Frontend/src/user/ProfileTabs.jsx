@@ -1,6 +1,8 @@
 import { AppBar, Tabs, Tab } from "@mui/material";
 import { useState } from "react";
-
+import PropTypes from "prop-types";
+import PostList from "../post/PostList";
+import FollowGrid from "./FollowGrid";
 export default function ProfileTabs(props) {
   const [tab, setTab] = useState(0);
   const handleChange = (event, value) => {
@@ -21,7 +23,38 @@ export default function ProfileTabs(props) {
           <Tab label="Followers" />
         </Tabs>
       </AppBar>
-      {tab === 0 && <TabContainer></TabContainer>}
+      {tab === 0 && (
+        <TabContainer>
+          <PostList removeUpdate={props.removePostUpdate} posts={props.posts} />
+        </TabContainer>
+      )}
+      {tab === 1 && (
+        <TabContainer>
+          <FollowGrid people={props.user.following} />
+        </TabContainer>
+      )}
+      {tab === 2 && (
+        <TabContainer>
+          <FollowGrid people={props.user.followers} />
+        </TabContainer>
+      )}
     </div>
   );
 }
+ProfileTabs.propTypes = {
+  user: PropTypes.object.isRequired,
+  removePostUpdate: PropTypes.func.isRequired,
+  posts: PropTypes.array.isRequired,
+};
+
+const TabContainer = (props) => {
+  return (
+    <Typography component="div" style={{ padding: 8 * 2 }}>
+      {props.children}
+    </Typography>
+  );
+};
+
+TabContainer.propTypes = {
+  children: PropTypes.node.isRequired,
+};
