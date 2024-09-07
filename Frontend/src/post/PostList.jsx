@@ -1,6 +1,7 @@
-import PropTypes from "prop-types";
+import propTypes from "prop-types";
 import Post from "./Post.jsx";
 export default function PostList(props) {
+  console.log("postList props ", props);
   return (
     <div style={{ marginTop: "24px" }}>
       {props.posts.map((item, i) => {
@@ -10,6 +11,6 @@ export default function PostList(props) {
   );
 }
 PostList.propTypes = {
-  posts: PropTypes.array.isRequired,
-  removeUpdate: PropTypes.func.isRequired,
+  posts: propTypes.array.isRequired,
+  removeUpdate: propTypes.func.isRequired,
 };

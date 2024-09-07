@@ -26,8 +26,10 @@ router
   .put(authCtrl.requireSignIn, postCtrl.uncomment);
 
 router.param("userId", useCtrl.userByID);
-router.param("postId", (req, res, next, id) => {
-  // console.log("router.param userId:", id);
-  useCtrl.userByID(req, res, next, id);
-});
+router.param("postId", postCtrl.postByID);
+// router.param("postId", (req, res, next, id) => {
+//   console.log("router.param userId:", id);
+//   useCtrl.postByID(req, res, next, id);
+//   next();
+// });
 module.exports = router;

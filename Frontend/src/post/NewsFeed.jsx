@@ -40,7 +40,7 @@ export default function Newsfeed() {
       },
       signal
     ).then((data) => {
-      if (data.error) {
+      if (data && data.error) {
         console.log(data.error);
       } else {
         setPosts(data);

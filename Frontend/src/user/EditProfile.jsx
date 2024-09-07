@@ -91,13 +91,13 @@ export default function EditProfile({ match }) {
       abortController.abort();
     };
   }, [jwt.user._id]);
-
   const clickSubmit = () => {
     let userData = new FormData();
-    values.name && userData.append("name", values.name);
-    values.email && userData.append("email", values.email);
-    values.password && userData.append("password", values.password);
-    values.about && userData.append("about", values.about);
+    console.log(values);
+    userData.append("name", values.name);
+    userData.append("email", values.email);
+    userData.append("password", values.password);
+    userData.append("about", values.about);
     values.photo && userData.append("photo", values.photo);
     update(
       {
@@ -115,9 +115,9 @@ export default function EditProfile({ match }) {
       }
     });
   };
+
   const handleChange = (name) => (event) => {
     const value = name === "photo" ? event.target.files[0] : event.target.value;
-    //userData.set(name, value)
     setValues({ ...values, [name]: value });
   };
   const photoUrl = values.id

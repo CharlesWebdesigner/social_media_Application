@@ -12,6 +12,7 @@ const listNewsFeed = async (req, res) => {
       .populate("postedBy", "_id name")
       .sort("-created")
       .exec();
+    // console.log(posts);
     res.json(posts);
   } catch (err) {
     return res.status(400).json({
@@ -77,13 +78,22 @@ const create = (req, res, next) => {
     }
   });
 };
-
+const isPoster = (req, res, next) => {
+  let isPoster = req.post && req.auth && req.post.postedBy._id == req.auth._id;
+  if (!isPoster) {
+    return res.status(403).json({
+      error: "Access denied",
+    });
+  }
+  next();
+};
 const remove = async (req, res) => {
   let post = req.post;
   try {
-    let deletedPost = await Post.deleteOne();
+    let deletedPost = await post.deleteOne();
     res.json(deletedPost);
   } catch (err) {
+    console.log("error from remove ", err);
     return res.status(400).json({
       error: errorHandler.getErrorMessage(err),
     });
@@ -91,6 +101,7 @@ const remove = async (req, res) => {
 };
 const photo = (req, res, next) => {
   res.set("Content-Type", req.post.photo.contentType);
+  console.log(req.post.photo.data);
   return res.send(req.post.photo.data);
 };
 const postByID = async (req, res, next, id) => {
@@ -108,15 +119,6 @@ const postByID = async (req, res, next, id) => {
       error: "could not retrieve user post",
     });
   }
-};
-const isPoster = (req, res, next) => {
-  let isPoster = req.post && req.auth && req.post.postedBy._id == req.auth._id;
-  if (!isPoster) {
-    return res.status(403).json({
-      error: "Access denied",
-    });
-  }
-  next();
 };
 const like = async (req, res) => {
   try {
