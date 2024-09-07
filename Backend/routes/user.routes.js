@@ -26,6 +26,10 @@ router
 
 router
   .route("/api/users/:userId")
+  .options((req, res) => {
+    console.log("OPTIONS request received");
+    res.send(204);
+  })
   .get(authCtrl.requireSignIn, userCtrl.read)
   .put(authCtrl.requireSignIn, authCtrl.hasAuthorization, userCtrl.update)
   .delete(authCtrl.requireSignIn, authCtrl.hasAuthorization, userCtrl.remove);

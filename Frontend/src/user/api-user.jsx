@@ -60,9 +60,10 @@ const update = async (params, credentials, user) => {
 };
 
 const remove = async (params, credentials) => {
+  console.log(params);
   try {
     let response = await fetch(`${url}/api/users/` + params.userId, {
-      method: "DELETE",
+      method: "delete",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
