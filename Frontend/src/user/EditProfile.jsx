@@ -84,6 +84,7 @@ export default function EditProfile({ match }) {
           name: data.name,
           email: data.email,
           about: data.about,
+          password: data.password,
         });
       }
     });
@@ -96,7 +97,7 @@ export default function EditProfile({ match }) {
     let userData = new FormData();
     values.name && userData.append("name", values.name);
     values.email && userData.append("email", values.email);
-    values.passoword && userData.append("passoword", values.passoword);
+    values.password && userData.append("password", values.password);
     values.about && userData.append("about", values.about);
     values.photo && userData.append("photo", values.photo);
     update(
