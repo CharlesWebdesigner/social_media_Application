@@ -63,17 +63,19 @@ export default function EditProfile({ match }) {
     id: "",
   });
   const jwt = auth.isAuthenticated();
+
   useEffect(() => {
     const abortController = new AbortController();
     const signal = abortController.signal;
+
     read(
       {
-        userId: match.params.userId,
+        userId: jwt.user._id,
       },
       { t: jwt.token },
       signal
     ).then((data) => {
-      if (data && data.error) {
+      if (data & data.error) {
         setValues({ ...values, error: data.error });
       } else {
         setValues({
@@ -85,40 +87,45 @@ export default function EditProfile({ match }) {
         });
       }
     });
-  }, [match.params.userId]);
+    return function cleanup() {
+      abortController.abort();
+    };
+  }, [jwt.user._id]);
+
   const clickSubmit = () => {
     let userData = new FormData();
     values.name && userData.append("name", values.name);
     values.email && userData.append("email", values.email);
-    values.password && userData.append("password", values.password);
+    values.passoword && userData.append("passoword", values.passoword);
     values.about && userData.append("about", values.about);
     values.photo && userData.append("photo", values.photo);
+    update(
+      {
+        userId: jwt.user._id,
+      },
+      {
+        t: jwt.token,
+      },
+      userData
+    ).then((data) => {
+      if (data && data.error) {
+        setValues({ ...values, error: data.error });
+      } else {
+        setValues({ ...values, redirectToProfile: true });
+      }
+    });
   };
-  update(
-    {
-      userId: match.params.userId,
-    },
-    { t: jwt.token },
-    userData
-  ).then((data) => {
-    if (data && data.error) {
-      setValues({ ...values, error: data.error });
-    } else {
-      setValues({ ...values, redirectToProfile: true });
-    }
-  });
   const handleChange = (name) => (event) => {
-    const value =
-      name === "photo"
-        ? event.target.files[0]
-        : (event.target.value, setValues({ ...values, [name]: value }));
-    const photoUrl = values.id
-      ? `/api/users/photo/${values.id}?${new Date().getTime()}`
-      : "/api/users/defaultphoto";
+    const value = name === "photo" ? event.target.files[0] : event.target.value;
+    //userData.set(name, value)
+    setValues({ ...values, [name]: value });
   };
+  const photoUrl = values.id
+    ? `/api/users/photo/${values.id}?${new Date().getTime()}`
+    : "/api/users/defaultphoto";
   if (values.redirectToProfile) {
     const navigate = useNavigate();
-    return navigate("/user" + values.id);
+    return navigate("/user/" + values.id);
   }
   return (
     <Card className={classes.card}>
@@ -140,10 +147,11 @@ export default function EditProfile({ match }) {
             Upload
             <FileUploadIcon />
           </Button>
-        </label>
+        </label>{" "}
         <span className={classes.filename}>
           {values.photo ? values.photo.name : ""}
         </span>
+        <br />
         <TextField
           id="name"
           label="Name"
@@ -160,7 +168,7 @@ export default function EditProfile({ match }) {
           rows="2"
           value={values.about}
           onChange={handleChange("about")}
-          classaName={classes.textField}
+          className={classes.textField}
           margin="normal"
         />
         <br />
@@ -183,12 +191,13 @@ export default function EditProfile({ match }) {
           onChange={handleChange("password")}
           margin="normal"
         />
-        <br />
+        <br />{" "}
         {values.error && (
           <Typography component="p" color="error">
             <Icon color="error" className={classes.error}>
               error
             </Icon>
+            {values.error}
           </Typography>
         )}
       </CardContent>
