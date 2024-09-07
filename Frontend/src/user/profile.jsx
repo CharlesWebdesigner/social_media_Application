@@ -4,6 +4,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { read } from "./api-user";
 import DeleteUser from "./DeleteUser";
 import { Link, useNavigate } from "react-router-dom";
+import ProfileTabs from "./ProfileTabs";
 import {
   Avatar,
   List,
@@ -164,11 +165,11 @@ export default function Profile({ match }) {
           />
         </ListItem>
       </List>
-      {/* <ProfileTabs
+      <ProfileTabs
         user={values.user}
         posts={posts}
         removePostUpdate={removePost}
-      /> */}
+      />
     </Paper>
   );
 }
