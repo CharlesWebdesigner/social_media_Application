@@ -1,4 +1,4 @@
-import { AppBar, Tabs, Tab } from "@mui/material";
+import { AppBar, Tabs, Tab, Typography } from "@mui/material";
 import { useState } from "react";
 import PropTypes from "prop-types";
 import PostList from "../post/PostList";
