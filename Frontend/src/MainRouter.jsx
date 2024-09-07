@@ -4,6 +4,7 @@ import SignIn from "./auth/signIn";
 import Home from "./core/Home";
 import Menu from "./core/Menu";
 import Profile from "./user/profile";
+import EditProfile from "./user/EditProfile";
 const MainRouter = () => {
   return (
     <div>
@@ -13,6 +14,7 @@ const MainRouter = () => {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/user/:userId" element={<Profile />} />
+        <Route path="/user/edit/:userId" element={<EditProfile />} />
       </Routes>
     </div>
   );
