@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function Newsfeed() {
   const classes = useStyles();
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState([]); // posts initialized as an empty array
   const jwt = auth.isAuthenticated();
 
   useEffect(() => {
@@ -35,27 +35,27 @@ export default function Newsfeed() {
       {
         userId: jwt.user._id,
       },
-      {
-        t: jwt.token,
-      },
+      { t: jwt.token },
       signal
     ).then((data) => {
       if (data && data.error) {
         console.log(data.error);
       } else {
-        setPosts(data);
+        setPosts(data || []); // Ensure data is an array, fallback to empty array
       }
     });
-    // return function cleanup() {
-    //   abortController.abort();
-    // };
-  }, []);
+
+    return function cleanup() {
+      abortController.abort();
+    };
+  }, [jwt.user._id, jwt.token]);
 
   const addPost = (post) => {
     const updatedPosts = [...posts];
     updatedPosts.unshift(post);
     setPosts(updatedPosts);
   };
+
   const removePost = (post) => {
     const updatedPosts = [...posts];
     const index = updatedPosts.indexOf(post);
@@ -71,7 +71,8 @@ export default function Newsfeed() {
       <Divider />
       <NewPost addUpdate={addPost} />
       <Divider />
-      <PostList removeUpdate={removePost} posts={posts} />
+      {/* Pass posts safely */}
+      <PostList removeUpdate={removePost} posts={posts || []} />
     </Card>
   );
 }
