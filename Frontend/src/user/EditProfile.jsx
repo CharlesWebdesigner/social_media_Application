@@ -3,8 +3,17 @@ import { useEffect, useState } from "react";
 import auth from "../auth/auth-helper";
 import { read, update } from "./api-user";
 import { useNavigate } from "react-router-dom";
-import { Card, CardContent, Typography } from "@mui/material";
-
+import {
+  Avatar,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Icon,
+  TextField,
+  Typography,
+} from "@mui/material";
+import FileUploadIcon from "@mui/icons-material/FileUpload";
 const useStyles = makeStyles((theme) => ({
   card: {
     maxWidth: 600,
@@ -117,7 +126,82 @@ export default function EditProfile({ match }) {
         <Typography variant="h6" className={classes.title}>
           Edit Profile
         </Typography>
+        <Avatar src={photoUrl} className={classes.bigAvatar} />
+        <br />
+        <input
+          accept="image/*"
+          onChange={handleChange("photo")}
+          className={classes.input}
+          id="icon-button-file"
+          type="file"
+        />
+        <label htmlFor="icon-button-file">
+          <Button variant="contained" color="default" component="span">
+            Upload
+            <FileUploadIcon />
+          </Button>
+        </label>
+        <span className={classes.filename}>
+          {values.photo ? values.photo.name : ""}
+        </span>
+        <TextField
+          id="name"
+          label="Name"
+          className={classes.textField}
+          value={values.name}
+          onChange={handleChange("name")}
+          margin="normal"
+        />
+        <br />
+        <TextField
+          id="multiline-flexible"
+          label="About"
+          multiline
+          rows="2"
+          value={values.about}
+          onChange={handleChange("about")}
+          classaName={classes.textField}
+          margin="normal"
+        />
+        <br />
+        <TextField
+          id="email"
+          type="email"
+          label="Email"
+          className={classes.textField}
+          value={values.email}
+          onChange={handleChange("email")}
+          margin="normal"
+        />
+        <br />
+        <TextField
+          id="password"
+          type="password"
+          label="Password"
+          className={classes.textField}
+          value={values.password}
+          onChange={handleChange("password")}
+          margin="normal"
+        />
+        <br />
+        {values.error && (
+          <Typography component="p" color="error">
+            <Icon color="error" className={classes.error}>
+              error
+            </Icon>
+          </Typography>
+        )}
       </CardContent>
+      <CardActions>
+        <Button
+          color="primary"
+          variant="contained"
+          onClick={clickSubmit}
+          className={classes.submit}
+        >
+          Submit
+        </Button>
+      </CardActions>
     </Card>
   );
 }
