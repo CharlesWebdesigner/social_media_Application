@@ -24,6 +24,6 @@ export default function FollowProfileButton(props) {
   );
 }
 FollowProfileButton.propTypes = {
-  following: PropTypes.bool.isRequired,
-  onButtonClick: PropTypes.func.isRequired,
+  following: propTypes.bool.isRequired,
+  onButtonClick: propTypes.func.isRequired,
 };
