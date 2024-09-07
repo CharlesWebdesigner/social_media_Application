@@ -75,16 +75,15 @@ export default function EditProfile({ match }) {
       { t: jwt.token },
       signal
     ).then((data) => {
-      if (data & data.error) {
+      if (data && data.error) {
         setValues({ ...values, error: data.error });
       } else {
         setValues({
           ...values,
-          id: data._id,
-          name: data.name,
-          email: data.email,
-          about: data.about,
-          password: data.password,
+          id: data._id || "",
+          name: data.name || "",
+          email: data.email || "",
+          about: data.about || "",
         });
       }
     });
@@ -128,6 +127,7 @@ export default function EditProfile({ match }) {
     const navigate = useNavigate();
     return navigate("/user/" + values.id);
   }
+
   return (
     <Card className={classes.card}>
       <CardContent>

@@ -62,18 +62,29 @@ const update = (req, res) => {
         error: "Photo could not be uploaded",
       });
     }
+
+    // Convert array fields to strings if necessary
+    Object.keys(fields).forEach((key) => {
+      if (Array.isArray(fields[key])) {
+        fields[key] = fields[key][0]; // Convert array to string
+      }
+    });
+
     let user = req.profile;
-    user = extend(user, fields);
+    user = extend(user, fields); // Merge updated fields with the user object
     user.updated = Date.now();
+
+    // Handle the photo if provided
     if (files.photo) {
-      user.photo.data = fs.readFileSync(files.photo.filepath);
-      user.photo.contentType = files.photo.type;
+      user.photo.data = fs.readFileSync(files.photo.filepath); // Corrected the 'filepath' key
+      user.photo.contentType = files.photo.mimetype; // Corrected the 'mimetype' key
     }
+
     try {
       await user.save();
-      user.hashed_password = undefined;
+      user.hashed_password = undefined; // Hide sensitive fields
       user.salt = undefined;
-      res.json(user);
+      res.json(user); // Respond with updated user
     } catch (err) {
       return res.status(400).json({
         error: errorHandler.getErrorMessage(err),
