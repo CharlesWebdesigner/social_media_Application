@@ -5,6 +5,7 @@ import auth from "../auth/auth-helper";
 import { listNewsFeed } from "./api-post";
 import PostList from "./PostList";
 import NewPost from "./NewPost";
+
 const useStyles = makeStyles((theme) => ({
   card: {
     margin: "auto",
@@ -22,30 +23,37 @@ const useStyles = makeStyles((theme) => ({
     minHeight: 330,
   },
 }));
+
 export default function Newsfeed() {
   const classes = useStyles();
-  const [posts, setPosts] = useState([]); // posts initialized as an empty array
+  const [posts, setPosts] = useState([]);
   const jwt = auth.isAuthenticated();
 
   useEffect(() => {
     const abortController = new AbortController();
     const signal = abortController.signal;
 
-    listNewsFeed(
-      {
-        userId: jwt.user._id,
-      },
-      { t: jwt.token },
-      signal
-    ).then((data) => {
+    const fetchPosts = async () => {
+      const data = await listNewsFeed(
+        {
+          userId: jwt.user._id,
+        },
+        { t: jwt.token },
+        signal
+      );
       if (data && data.error) {
         console.log(data.error);
       } else {
-        setPosts(data || []); // Ensure data is an array, fallback to empty array
+        setPosts(data || []);
       }
-    });
+    };
 
-    return function cleanup() {
+    fetchPosts(); // Initial fetch
+
+    const intervalId = setInterval(fetchPosts, 5000); // Poll every 5 seconds
+
+    return () => {
+      clearInterval(intervalId);
       abortController.abort();
     };
   }, [jwt.user._id, jwt.token]);
@@ -71,7 +79,6 @@ export default function Newsfeed() {
       <Divider />
       <NewPost addUpdate={addPost} />
       <Divider />
-      {/* Pass posts safely */}
       <PostList removeUpdate={removePost} posts={posts || []} />
     </Card>
   );

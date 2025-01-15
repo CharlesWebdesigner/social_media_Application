@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import auth from "../auth/auth-helper";
 import { remove } from "./api-user";
 import propTypes from "prop-types";
@@ -16,6 +16,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 export default function DeleteUser(props) {
   const [open, setOpen] = useState(false);
   const [redirect, setRedirect] = useState(false);
+  const navigate = useNavigate();
   const jwt = auth.isAuthenticated();
   const clickButton = () => {
     setOpen(true);
@@ -38,10 +39,11 @@ export default function DeleteUser(props) {
   const handleRequestClose = () => {
     setOpen(false);
   };
-  if (redirect) {
-    const navigate = useNavigate();
-    return navigate("/");
-  }
+  useEffect(() => {
+    if (redirect) {
+      navigate("/");
+    }
+  }, [redirect, navigate]);
   return (
     <span>
       <IconButton aria-label="Delete" onClick={clickButton} color="secondary">

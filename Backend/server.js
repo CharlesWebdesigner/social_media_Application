@@ -4,7 +4,10 @@ const port = config.port || 3000;
 const mongoose = require("mongoose");
 try {
   app.listen(port, async () => {
-    await mongoose.connect(config.url);
+    await mongoose.connect(config.url, {
+      user: "charles",
+      pass: "passwordOne",
+    });
     console.info(`App is running on port ${port}`);
   });
 } catch (error) {

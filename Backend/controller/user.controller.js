@@ -68,19 +68,22 @@ const update = (req, res) => {
       }
     });
     let user = req.profile;
+    // console.log(user);
+    // const update={name:user.name,crea}
     user = extend(user, fields);
     user.updated = Date.now();
+    // console.log(user, typeof user);
     if (files.photo) {
       user.photo.data = fs.readFileSync(files.photo.filepath);
       user.photo.contentType = files.photo.mimetype;
     }
-
     try {
-      await user.save();
+      await user.updateOne();
       user.hashed_password = undefined;
       user.salt = undefined;
       res.json(user);
     } catch (err) {
+      console.log(err);
       return res.status(400).json({
         error: errorHandler.getErrorMessage(err),
       });

@@ -106,6 +106,7 @@ export default function Post(props) {
       if (data.error) {
         console.log(data.error);
       } else {
+        console.log(props.post);
         props.onRemove(props.post);
       }
     });

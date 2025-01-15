@@ -12,7 +12,6 @@ const listNewsFeed = async (req, res) => {
       .populate("postedBy", "_id name")
       .sort("-created")
       .exec();
-    // console.log(posts);
     res.json(posts);
   } catch (err) {
     return res.status(400).json({

@@ -125,6 +125,7 @@ export default function Comments(props) {
         }
         className={classes.cardHeader}
       />
+      <button style={{ color: "green" }}>comment</button>
       {props.comments.map((item, i) => {
         return (
           <CardHeader
