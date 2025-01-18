@@ -1,7 +1,7 @@
 let url = "http://localhost:5000";
 const create = async (params, credentials, post) => {
   try {
-    let response = await fetch(`${url}/api/posts/new/` + params.userId, {
+    let response = await fetch(`/api/posts/new/` + params.userId, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -20,7 +20,7 @@ const create = async (params, credentials, post) => {
 
 const listByUser = async (params, credentials) => {
   try {
-    let response = await fetch(`${url}/api/posts/by/` + params.userId, {
+    let response = await fetch(`/api/posts/by/` + params.userId, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -36,7 +36,7 @@ const listByUser = async (params, credentials) => {
 
 const listNewsFeed = async (params, credentials, signal) => {
   try {
-    let response = await fetch(`${url}/api/posts/feed/` + params.userId, {
+    let response = await fetch(`/api/posts/feed/` + params.userId, {
       method: "GET",
       signal: signal,
       headers: {
@@ -53,7 +53,7 @@ const listNewsFeed = async (params, credentials, signal) => {
 
 const remove = async (params, credentials) => {
   try {
-    let response = await fetch(`${url}/api/posts/` + params.postId, {
+    let response = await fetch(`/api/posts/` + params.postId, {
       method: "DELETE",
       headers: {
         Accept: "application/json",
@@ -69,7 +69,7 @@ const remove = async (params, credentials) => {
 
 const like = async (params, credentials, postId) => {
   try {
-    let response = await fetch(`${url}/api/posts/like/`, {
+    let response = await fetch(`/api/posts/like/`, {
       method: "PUT",
       headers: {
         Accept: "application/json",
@@ -86,7 +86,7 @@ const like = async (params, credentials, postId) => {
 
 const unlike = async (params, credentials, postId) => {
   try {
-    let response = await fetch(`${url}/api/posts/unlike/`, {
+    let response = await fetch(`/api/posts/unlike/`, {
       method: "PUT",
       headers: {
         Accept: "application/json",
@@ -103,7 +103,7 @@ const unlike = async (params, credentials, postId) => {
 
 const comment = async (params, credentials, postId, comment) => {
   try {
-    let response = await fetch(`${url}/api/posts/comment/`, {
+    let response = await fetch(`/api/posts/comment/`, {
       method: "PUT",
       headers: {
         Accept: "application/json",
@@ -124,7 +124,7 @@ const comment = async (params, credentials, postId, comment) => {
 
 const uncomment = async (params, credentials, postId, comment) => {
   try {
-    let response = await fetch(`${url}/api/posts/uncomment`, {
+    let response = await fetch(`/api/posts/uncomment`, {
       method: "PUT",
       headers: {
         Accept: "application/json",

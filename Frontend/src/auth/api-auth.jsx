@@ -1,7 +1,7 @@
 const signUser = async (user) => {
   let url = "http://localhost:5000";
   try {
-    let response = await fetch(`${url}/auth/signin`, {
+    let response = await fetch(`/auth/signin`, {
       method: "post",
       headers: {
         Accept: "application/json",
@@ -15,7 +15,4 @@ const signUser = async (user) => {
     console.log(err);
   }
 };
-// exports = {
-//   signUser,
-// };
 export default signUser;
