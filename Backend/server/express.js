@@ -10,7 +10,22 @@ const compress = require("compression");
 const cors = require("cors");
 const path = require("path");
 app.use(compress());
-app.use(helmet());
+const helmet = require("helmet");
+
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        connectSrc: [
+          "'self'",
+          "http://localhost:5000",
+          "https://social-media-application-delta.vercel.app/",
+        ],
+      },
+    },
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan("dev"));
