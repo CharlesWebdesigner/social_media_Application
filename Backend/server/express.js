@@ -17,11 +17,7 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
-        connectSrc: [
-          "'self'",
-          "http://localhost:5000",
-          "https://social-media-application-delta.vercel.app/",
-        ],
+        connectSrc: ["'self'", "http://localhost:5000"],
       },
     },
   })
