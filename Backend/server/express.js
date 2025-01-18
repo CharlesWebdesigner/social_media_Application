@@ -8,17 +8,20 @@ const userRoutes = require("../routes/user.routes");
 const postRoutes = require("../routes/post.routes");
 const compress = require("compression");
 const cors = require("cors");
+const path = require("path");
 app.use(compress());
 app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan("dev"));
+// const dist=require('../')
 app.use(
   cors({
     origin: ["http://localhost:5173", "http://localhost:4173"],
     credentials: true,
   })
 );
+app.use("/", express.static(path.join(__dirname, "../dist")));
 app.use("/", authRoutes);
 app.use("/", userRoutes);
 app.use("/", postRoutes);
@@ -29,7 +32,7 @@ app.use((err, req, res, next) => {
   if (err.name === "UnauthorizedError") {
     res.status(401).json({ error: err.name + " :" + err.message });
   } else if (err) {
-    console.log(err)
+    console.log(err);
     res.status(400).json({ error: err.name + " :" + err.message });
   }
 });

@@ -3,6 +3,7 @@ const extend = require("lodash/extend");
 const errorHandler = require("./../helpers/dbErrorHandler");
 const formidable = require("formidable");
 const fs = require("fs");
+const path = require("path");
 const create = async (req, res) => {
   const user = new User(req.body);
   console.log(req.body);
