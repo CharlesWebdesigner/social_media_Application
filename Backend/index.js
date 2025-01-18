@@ -5,8 +5,8 @@ const mongoose = require("mongoose");
 try {
   app.listen(port, async () => {
     await mongoose.connect(config.url, {
-      user: "charles",
-      pass: "passwordOne",
+      user: config.user,
+      pass: config.password,
     });
     console.info(`App is running on port ${port}`);
   });

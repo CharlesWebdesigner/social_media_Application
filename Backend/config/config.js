@@ -5,5 +5,7 @@ const config = {
   port: process.env.PORT,
   url: process.env.Mongo_url,
   jwtSecret: process.env.jwt,
+  user: process.env.user,
+  password: process.env.password,
 };
 module.exports = config;
