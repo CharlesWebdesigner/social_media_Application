@@ -26,7 +26,10 @@ app.use(morgan("dev"));
 // const dist=require('../')
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://localhost:4173"],
+    origin: [
+      "http://localhost:5173",
+      "https://social-media-application-delta.vercel.app",
+    ],
     credentials: true,
   })
 );
