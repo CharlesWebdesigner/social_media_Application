@@ -5,12 +5,15 @@ const formidable = require("formidable");
 const fs = require("fs");
 const create = async (req, res) => {
   const user = new User(req.body);
+  console.log(req.body);
   try {
     await user.save();
     return res.status(200).json({
       message: "Successfully signed up!",
     });
   } catch (err) {
+    // console.trace(Object.entries(err));
+    // console.log(err.errInfo.details);
     return res.status(400).json({
       error: errorHandler.getErrorMessage(err),
     });
