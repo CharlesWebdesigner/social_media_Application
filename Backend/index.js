@@ -8,7 +8,7 @@ try {
       user: config.user,
       pass: config.password,
     });
-    console.info(`App is running on port ${port}`);
+    console.info(`App is running on port: ${port}`);
   });
 } catch (error) {
   console.log(`Encountered error : ${error} while starting server`);
