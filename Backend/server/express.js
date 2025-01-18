@@ -10,8 +10,6 @@ const compress = require("compression");
 const cors = require("cors");
 const path = require("path");
 app.use(compress());
-const helmet = require("helmet");
-
 app.use(
   helmet({
     contentSecurityPolicy: {
